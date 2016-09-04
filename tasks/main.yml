@@ -1,2 +1,8 @@
 ---
 # tasks file for dotqmail
+- name: generate dotqmail-files
+  template:
+    src: templates/dotqmail.j2
+    dest: "{{ansible_env.HOME}}/.qmail-{{item.key}}"
+    mode: 0644
+  with_dict: "{{dotqmail_files}}"
