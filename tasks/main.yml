@@ -1,4 +1,24 @@
 ---
+#  dotqmail/tasks/main.yml
+#
+#  Copyright 2016 Jonathan Golder <jonathan@golderweb.de>
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#
+
 # tasks file for dotqmail
 
 # To decide wether a dotqmail file is still needed we need to get all files
@@ -25,7 +45,7 @@
   with_items: "{{present_files.files}}"
   when: dotqmail_files[current_ext] is not defined
 
-# Gooing forward to create/update files with config
+# Going forward to create/update files with config
 # Since the root file has no extention we need to treat it separately
 # The content lines are configured in list dotqmail_rootfile
 - name: generate/update dotqmail root file
