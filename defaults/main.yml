@@ -2,3 +2,12 @@
 # defaults file for dotqmail
 dotqmail_prefix : ".qmail-"
 
+# Set root dotqmail file to maildir by default
+dotqmail_rootfile: ["./Maildir/"]
+
+# Those must be always present according to rfc2142
+# @see https://tools.ietf.org/html/rfc2142
+dotqmail_default_files:
+  "abuse": ["{{ansible_env.USER}}"]
+  "hostmaster": ["{{ansible_env.USER}}"]
+  "postmaster": ["{{ansible_env.USER}}"]

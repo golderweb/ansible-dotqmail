@@ -1,2 +1,9 @@
 ---
 # vars file for dotqmail
+
+# combine dotqmail_default_files from role's default with configuration
+# Will make sure that every dotqmail file from default config will be present
+# the content hence can be adjusted by defining the extention in e.g. inventory
+# which will be prefered
+# This is done to be conform with rfc2142
+dotqmail_files: "{{dotqmail_default_files|combine(dotqmail_config_files)}}"

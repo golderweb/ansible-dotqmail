@@ -39,6 +39,8 @@
 
 # For the other files the we get a key-value pair with the dotqmail extention
 # as key and the list of lines as value while looping over dotqmail_files
+# (which is a combination of dotqmail_config_files from inventory over
+# dotqmail_default_files from role defaults)
 - name: generate/update other dotqmail-files
   template:
     src: templates/dotqmail.j2
