@@ -1,0 +1,6 @@
+{# Gets the file name as var file and the redirect lines as list var file_names #}
+# ~/{{file}}
+# {{ansible_managed}}
+{% for line in file_lines %}
+{{line}}
+{% endfor %}
