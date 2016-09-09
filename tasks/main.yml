@@ -10,13 +10,15 @@
 - name: Fetch all dotqmail files
   find:
     paths: "{{ansible_env.HOME}}/"
-    patterns: ".qmail*"
+    patterns: ".qmail-*"
     hidden: True
   register: old_dotqmail_files
 
 - name: Test
   debug:
-    msg: "File: {{item.path|basename|replace(dotqmail_prefix + '-','')}}"
+    msg: "File: {{currentfile}}"
+  vars:
+    currentfile: "{{item.path|basename|replace(dotqmail_prefix + '-','')}}"
   with_items: "{{old_dotqmail_files.files}}"
-
+  when: dotqmail_files[currentfile] is not defined
 
