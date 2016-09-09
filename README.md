@@ -1,22 +1,37 @@
-Role Name
+dotqmail
 =========
 
-A brief description of the role goes here.
+The role will set up the dotqmail files in ansible users home for netqmail server as it is used for example on uberspace.de.
+*Make sure you have made a backup of your dotqmail files before running this role since it will overwrite or delete them without any further request!!!*
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+See variables section what could be configured. The default configuration only provides basic functionality and does not covers any needs a normal user would have.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+* dotqmail_rootfile  This list of lines is used as content of the root dotqmail file ".qmail" which is treatened separately since it has no extention (and therefore no valid key). Per default it will redirect mails to ./Maildir/ which can be simply overwritten e.g. in inventory files.
+
+* dotqmail_config_files  Can be configured as a dict of lists were the keys are the dotqmail file extentions you like to have and the list entries (which should be strings) are the redirection lines to add to that file
+  Example:
+    dotqmail_config_files:
+      "info" : ["./Maildir/"]
+      "mail" : ["./Maildir/", "mail@example.com"]
+
+  The example above will create two dotqmail files ".qmail-info" and ".qmail-mail". The both will redirect the Mails to users Maildir while the latter one will also redirect the mail to address mail@example.com. See (https://wiki.uberspace.de/mail:dotqmail) for more information about dotqmail files and redirection lines syntax.
+
+* dotqmail_default_files  Has roughly the same function as dotqmail_config_files with the *important* difference that it will be combined with the one above to generate the actual working dict and items here will be overwritten by items of dotqmail_config_files if they use the same extention/dict-key. This is present to enforce basic conformity with RFC 2142.
+
+* dotqmail_file  This is the actual dict we work on and normally *should not be changed directly*. It is the combination of dotqmail_config_files over dotqmail_default_files.
+
+* dotqmail_prefix  This is the prefix used to detect the dotqmail filename. By default this is ".qmail-" and normally *should not be changed*.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+There are currently no additional depencies.
 
 Example Playbook
 ----------------
@@ -25,7 +40,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - role: dotqmail
 
 License
 -------
@@ -35,4 +50,4 @@ GPLv3
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Copyright 2016 Jonathan Golder jonathan@golderweb.de https://golderweb.de/
