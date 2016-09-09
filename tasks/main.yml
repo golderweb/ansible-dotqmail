@@ -26,6 +26,17 @@
   when: dotqmail_files[current_ext] is not defined
 
 # Gooing forward to create/update files with config
+# Since the root file has no extention we need to treat it separately
+# The content lines are configured in list dotqmail_rootfile
+- name: generate/update dotqmail root file
+  template:
+    src: templates/dotqmail.j2
+    dest: "{{ansible_env.HOME}}/{{file}}"
+    mode: 0600
+  vars:
+    file: ".qmail"
+    file_lines: "{{dotqmail_rootfile}}"
+
 # For the other files the we get a key-value pair with the dotqmail extention
 # as key and the list of lines as value while looping over dotqmail_files
 - name: generate/update other dotqmail-files
