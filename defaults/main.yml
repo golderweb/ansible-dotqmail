@@ -1,4 +1,4 @@
 ---
 # defaults file for dotqmail
-dotqmail_prefix : ".qmail"
+dotqmail_prefix : ".qmail-"
 

@@ -7,18 +7,28 @@
     mode: 0644
   with_dict: "{{dotqmail_files}}"
 
-- name: Fetch all dotqmail files
+
+# To decide wether a dotqmail file is still needed we need to get all files
+- name: Fetch all present dotqmail files
   find:
     paths: "{{ansible_env.HOME}}/"
-    patterns: ".qmail-*"
+    patterns: "{{dotqmail_prefix}}*"
     hidden: True
-  register: old_dotqmail_files
+  register: present_files
 
-- name: Test
-  debug:
-    msg: "File: {{currentfile}}"
+# To decide which file could be deleted we extract first the file name of
+# current file with basename(path) and then replace the dotqmail_prefix in it
+# with the empty string via replace(dotqmail_prefix,'') to get the dotqmail
+# extention
+# Then we check up if a member with this extenion is defined in our
+# dotqmail_files dict. If not, we can finaly delete the file (current item) via
+# item.path
+- name: Delete unconfigured (old) files
+  file:
+    path: "{{item.path}}"
+    state: absent
   vars:
-    currentfile: "{{item.path|basename|replace(dotqmail_prefix + '-','')}}"
-  with_items: "{{old_dotqmail_files.files}}"
-  when: dotqmail_files[currentfile] is not defined
+    current_ext: "{{item.path|basename|replace(dotqmail_prefix,'')}}"
+  with_items: "{{present_files.files}}"
+  when: dotqmail_files[current_ext] is not defined
 
