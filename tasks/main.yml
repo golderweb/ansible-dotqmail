@@ -50,7 +50,7 @@
 # The content lines are configured in list dotqmail_rootfile
 - name: generate/update dotqmail root file
   template:
-    src: templates/dotqmail.j2
+    src: templates/dotqmail_file.j2
     dest: "{{ansible_env.HOME}}/{{file}}"
     mode: 0600
   vars:
@@ -63,7 +63,7 @@
 # dotqmail_default_files from role defaults)
 - name: generate/update other dotqmail-files
   template:
-    src: templates/dotqmail.j2
+    src: templates/dotqmail_file.j2
     dest: "{{ansible_env.HOME}}/{{file}}"
     mode: 0600
   vars:
